@@ -1,5 +1,6 @@
+
 let score = 33;
-console.log(typeof score);//returns number
+ console.log(typeof score);//returns number
 console.log(typeof (score))//returns number
 
 score = "33";
@@ -32,5 +33,27 @@ let stringNumber = String(someNumber);
 console.log(stringNumber);//returns "33"
 console.log(typeof stringNumber);//returns string
 
+// *********************  Operations  **********************
 
+let value =3;
+let negValue=-value;
+console.log(negValue);//returns -3
+
+// console.log(2+2);
+// console.log(2-2);
+// console.log(2*2);
+// console.log(2/2);
+// console.log(2**2);
+// console.log(2%2);
+let str1="hello "
+let str2="there"
+console.log(str1+str2); //returns hello world
+
+console.log(1+"2");//returns 12
+console.log("1"+2);//returns 12
+console.log("1"+2+2);//returns 112
+console.log(1+2+"2");//returns 32
+
+console.log(+ture);//returns 1
+console.log(+" ");//returns 0
 
