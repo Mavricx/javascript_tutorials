@@ -66,5 +66,3 @@ userTwo.email="piku@gmail.com"
 console.log(userOne.email);
 console.log(userTwo.email); //both will return piku@gmail.com
 //as the reference of both the data are same and both got changed
-
-
