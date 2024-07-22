@@ -36,27 +36,29 @@ console.log(obj3);//{ '1': 'a', '2': 'b', '3': 'c', '4': 'd', a: 1, b: 2, c: 3, 
 const obj4 = { ...obj1, ...obj2 };
 console.log(obj4);//{ '1': 'a', '2': 'b', '3': 'c', '4': 'd', a: 1, b: 2, c: 3, d: 4 }
 
-const user = [
+const user = [//usually apis are passed in this form and we use index no to access them 
     {
-    id: 1,
-    email: "user@example.com"
-},
-{
-    id: 1,
-    email: "user@example.com"
-},
-{
-    id: 1,
-    email: "user@example.com"
-},
-{
-    id: 1,
-    email: "user@example.com"
-},]
+        id: 1,
+        email: "user@example.com"
+    },
+    {
+        id: 1,
+        email: "user@example.com"
+    },
+    {
+        id: 1,
+        email: "user@example.com"
+    },
+    {
+        id: 1,
+        email: "user@example.com"
+    },]
 
 console.log(user[1].email);
 
 console.log(tinderUser);
 console.log(Object.keys(tinderUser));//returns array of keys and can be iterated through loop
-console.log(Object.values(tinderUser));////returns array of values 
+console.log(Object.values(tinderUser));////returns array of values present in the passed object
 console.log(Object.entries(tinderUser));//returns arrays of pair of key and value
+
+console.log(tinderUser.hasOwnProperty('isLoggedIn'));//false
