@@ -62,3 +62,49 @@ console.log(Object.values(tinderUser));////returns array of values present in th
 console.log(Object.entries(tinderUser));//returns arrays of pair of key and value
 
 console.log(tinderUser.hasOwnProperty('isLoggedIn'));//false
+
+
+//-------------destructuring objects----------------
+
+const obj = { a: 1, b: 2 };
+const { a, b } = obj;
+// is equivalent to:
+// const a = obj.a;
+// const b = obj.b;
+
+const course = {
+    coursename: "js in hindi",
+    price: "999",
+    courseInstructor: "hitesh choudhary"
+}
+
+const { courseInstructor:instructor } = course;
+
+console.log(instructor);//hitesh choudhary
+
+
+// const navbar=({company})=>{
+
+// }
+// navbar(company="techschool")
+
+//------json file--------
+
+// {
+//     "name":"prianshu",
+//     "coursename":"js in hindi", //keys are also strings in the json file its similr to js objrcts
+//     "price":"free"
+// }
+
+//-------json in the format of array--------
+
+[
+    {},
+    {},
+    {}, 
+]
+
+//certain things to analyze apis for now in\
+// random user api 
+//https://api.github.com/users/hiteshchoudhary
+//to view json in the better format use --"json formatter" from the internet
