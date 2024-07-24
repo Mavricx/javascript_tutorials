@@ -1,0 +1,57 @@
+javascript is single threaded and
+->there are several execution context in javascript
+   ->Global execution context
+   ->Function execution context
+   ->Eval execution context(property of global object)
+
+Codes gets execution in two phases in javascript
+  ->Memory creation phases/cretion phases
+  ->Execution phases
+
+In browsers, the global object is window.
+In Node.js, the global object is global.
+
+lets consider a Code
+//------------
+let val1=10;
+let val2=5;
+
+function addNum(num1,num2){
+    let total=num1+num2;
+    return total;
+}
+
+let result1= addNum(val1,val2);
+let result2=addNum(10,2);
+
+---------
+(1)first code runs through global execution phases and variabls are alocated inside this
+
+(2)creation phase/memory phase--> all the variable are put together and kept 
+    like val1->undefined
+         val2->undefined
+         addNum()->definition
+         result1->undefined
+         result2->undefined  //these are just declared and not given value in this phase 
+
+(3) execution phase
+     val1<-10   //values are provided in this phase and 
+     val2<-     ----------------------------------------------------------------------------------------------
+     addNum()-> | ->  new variables and environment ,execution thread are designed                              |
+                | ->again memory phase and execution phase occurs for function and its variables created inside 
+                | -> all this environment was deleted after execution of the function
+                ------------------------------------------------------------------------------------------------
+                            |
+                            |
+                       -------------------------------------
+                       |                                    |
+                       |                                    |
+                memory phase                        execution phase 
+            val1->undefined                       num1->10
+            val2->undefined                       num2->5
+            total->undefined                      total->15  //total returns to global execution context
+
+----------------------------------------------------------------------------------------------------------------
+
+callstacks in javascript 
+
