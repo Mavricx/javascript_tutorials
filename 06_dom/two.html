@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM</title>
+  </head>
+  <body style="background-color: #212121; color: white">
+    <div class="parent">
+      <div class="day">Monday</div>
+      <div class="day">Tuesday</div>
+      <div class="day">Wednesday</div>
+      <div class="day">Thursday</div>
+      <div class="class">Fridaay</div>
+      <div class="class">Saturday</div>
+      <div class="class">Sunday</div>
+    </div>
+  </body>
+  <script>
+    const parent = document.querySelector(".parent");
+    console.log(parent);
+    console.log(parent.children); //returns an html collection
+    console.log(parent.children[1].innerHTML); //accessing 2nd element
+
+    for (let i = 0; i < parent.children.length; i++) {
+      //running through a loop
+      console.log(parent.children[i]);
+    }
+    parent.children[2].style.color = "orange";
+    console.log(parent.firstElementChild); //returns 1st html element in parent
+    console.log(parent.lastElementChild); //returns last html element in parent
+    
+    const dayOne=document.querySelector('.day');
+    console.log(dayOne); 
+    console.log(dayOne.parentElement); //returns parent of dayOne);
+    console.log(dayOne.nextElementSibling); //returns next sibling of dayOne
+    console.log("nodes : ",parent.childNodes);//returns all nodes even line break is also a node so returs 15 nodes
+  </script>
+</html>
