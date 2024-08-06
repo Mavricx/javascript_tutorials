@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>javascript</h1>
+    <button id="stop">Stop</button>
+    <button id="start">Start</button>
+  </body>
+  <script>
+    // document.getElementById("start").addEventListener("click", function () {
+    //   const intervalId = setInterval(() => {
+    //     console.log("now time is", Date.now().toLocaleString());
+    //   }, 1000);
+    //   document.getElementById("stop").addEventListener("click", function () {
+    //     clearInterval(intervalId);
+    //   });
+    // });
+    //have to write another eventlisltener inside the 1st one because of the problem of scope or we can write this as
+
+
+    let intervalId;
+    let isRunning;
+      
+    document.getElementById("start").addEventListener("click", function () {
+        if(!isRunning){
+            intervalId=setInterval(function(){
+                console.log("now time is", Date.now().toLocaleString());
+            },1000);
+            isRunning=true;
+        }
+    });
+
+    document.getElementById("stop").addEventListener("click", function () {
+        if(isRunning){
+            clearInterval(intervalId);
+            isRunning=false
+        }
+    });
+  </script>
+</html>

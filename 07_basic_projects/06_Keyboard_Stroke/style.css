@@ -1,0 +1,18 @@
+body {
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+.insert {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+}
+tabel,th ,tr{
+  border: 1px solid white;
+  display: none;
+}
