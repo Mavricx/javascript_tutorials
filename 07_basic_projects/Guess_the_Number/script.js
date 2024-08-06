@@ -1,5 +1,5 @@
 let randomNumber = Math.floor((Math.random() * 100) + 1);
-console.log(randomNumber);
+// console.log(randomNumber);
 
 const submit = document.querySelector('#submit');
 const userInput = document.querySelector('#userInput');
@@ -66,37 +66,38 @@ function checkGuess(guess) { //check the number if predicted number is true or n
 }
 
 function displayGuess(guess) {//display all the precvious guesses
-    userInput.value =``;
-    guessSlot.innerHTML+=` ${guess},  `;
+    userInput.value = ``;
+    guessSlot.innerHTML += ` ${guess},  `;
     numGuess++;
-    remaining.innerHTML=`${11 - numGuess}  `;
+    remaining.innerHTML = `${11 - numGuess}  `;
 }
 
 function displayMessage(message) {//show the curent scenario of the game  
-    lowOrHigh.innerHTML=`<h2>${message} </h2>`;
+    lowOrHigh.innerHTML = `<h2>${message} </h2>`;
 }
 
 function endGame() {//end the gam
-userInput.value = '';
-userInput.setAttribute('disabled','')
-p.classList.add('button');
-p.innerHTML=`<h2 id="newGame">Start new Game</h2>`;
-startOver.appendChild(p);
-playGame = false;
-newGame();
+    userInput.value = '';
+    userInput.setAttribute('disabled', '')
+    p.classList.add('button');
+    p.innerHTML = `<h2 id="newGame">Start New Game</h2>`;
+    startOver.appendChild(p);
+    playGame = false;
+    newGame();
 }
 
 function newGame() {//start the new game
-const newGameButton=document.querySelector('#newGame');
-newGameButton.addEventListener('click',function(){
-    randomNumber=Math.floor((Math.random() * 100) + 1);
-    prevGuess=[];
-    numGuess=1;
-    playGame=true;
-    remaining.innerHTML=`${11-numGuess}`;
-    userInput.removeAttribute('disabled');
-    startOver.removeChild(p)
-    displayMessage(" ")
-});
+    const newGameButton = document.querySelector('#newGame');
+    newGameButton.addEventListener('click', function () {
+        randomNumber = Math.floor((Math.random() * 100) + 1);
+        // console.log(randomNumber);
+        prevGuess = [];
+        numGuess = 1;
+        playGame = true;
+        remaining.innerHTML = `${11 - numGuess}`;
+        userInput.removeAttribute('disabled');
+        startOver.removeChild(p)
+        displayMessage(" ")
+    });
 
 }
