@@ -14,19 +14,19 @@ let heroPower = {
     }
 }
 
-Object.prototype.hitesh = function () {
-    console.log(`hitesh is present in all Objects`);
+Object.prototype.customFunction = function () {
+    console.log(`Custom function is present in all Objects`);
 
 }
 
-Array.prototype.heyhitesh = function () {
-    console.log(`hitesh is present in all Arrays`);
+Array.prototype.arrayCustomFunction = function () {
+    console.log(`Custom function is present in all Arrays`);
 
 }
-// heroPower.hitesh();
-// myHero.hitesh();
-// myHero.heyhitesh();
-// heroPower.heyhitesh();
+heroPower.customFunction();
+myHero.arrayCustomFunction();
+myHero.arrayCustomFunction();
+heroPower.arrayCustomFunction();//error as this is not an array
 
 const user = {
     name: "priyanshu",
