@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Have some useful knowledge about cats</h1>
+    <button>Generate another Api response</button>
+  </body>
+  <script>
+    const heading = document.querySelector("h1");
+    const button = document.querySelector("button");
+    const apiUrl = "https://catfact.ninja/fact";
+
+    async function fetchAndShow() {
+      fetch(apiUrl)
+        .then((data) => {
+          if (data.ok) {
+            console.log("data fetched successfully");
+            return data.json();
+          }
+        })
+        .then((data) => {
+          console.log(data);
+          heading.innerText = data.fact;
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    }
+
+    button.addEventListener("click", fetchAndShow);
+    button.click();
+  </script>
+</html>

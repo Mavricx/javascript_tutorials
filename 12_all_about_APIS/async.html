@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Async and await</title>
+  </head>
+  <body>
+    <h1>Life is Good</h1>
+  </body>
+  <script>
+    const heading = document.querySelector("h1");
+    // async function greet() {
+    //   //async always returns a promise
+    //   return "hello"; //PromiseState:fulfilled
+    // }
+    // //if error occured it will go as PromiseState:rejected
+    // async function throwError() {
+    //   throw "some random error";
+    //   return "hii";
+    // }
+    // greet()
+    //   .then((result) => {
+    //     console.log("promise was resolved");
+    //     console.log("result was " + result);
+    //   })
+    //   .catch((error) => {
+    //     console.log("error was " + error);
+    //   });
+    //   //making an arrow function async
+    //   let demo=async()=>{
+    //     console.log("async arrow is called")
+    //   }
+    //await keyword
+    function getNum() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          let num = Math.floor(Math.random() * 10) + 1;
+          console.log(num);
+          resolve();
+        }, 1100);
+      });
+    }
+
+    async function demo() {
+      //these will be one after another without any delay
+      await getNum(); //to add delay we hava to use await keyword
+      await getNum();
+       getNum();
+    }
+  </script>
+</html>
