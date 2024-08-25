@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script>
+      const apiUrl = "https://icanhazdadjoke.com/";
+      async function getJokes() {
+        try {
+          const config = { headers: { Accept: "application/json" } };//reciece information as json format not in html format
+          let res = await axios.get(apiUrl, config);
+          console.log(res.data);
+        } catch (err) {
+          console.log(err.message);
+        }
+      }
+      getJokes();
+    </script>
+  </body>
+</html>
