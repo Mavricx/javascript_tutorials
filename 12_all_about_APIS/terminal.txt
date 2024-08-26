@@ -1,0 +1,114 @@
+1. dir - Lists files and directories in the current directory.
+2. cd - Change Directory: Changes the current directory.
+3. **md or mkdir - Make Directory: Creates a new directory.
+4. del - Deletes one or more files.
+5. copy - Copies one or more files.
+6. move - Moves or renames files or directories.
+7. cls - Clears the terminal screen.
+8. echo - Outputs text to the terminal or redirects text to a file.
+9. ipconfig - Displays network configuration details.
+10. ping - Sends ICMP echo requests to network hosts.
+11. tasklist - Lists all running processes.
+12. taskkill - Terminates a process by its process ID.
+13. attrib - Changes file attributes (read-only, hidden, etc.).
+14. chkdsk - Checks a disk and displays a status report.
+15. netstat - Displays network connections, routing tables, and interface statistics.
+16. sfc - System File Checker: Scans and repairs corrupted system files.
+17. shutdown - Shuts down or restarts the computer.
+==============================================================
+File and Directory Management:
+18. dir - Displays a list of files and subdirectories in a directory.
+
+19. dir /p: Pauses after each screen of information.
+20. dir /w: Displays the list in wide format.
+21. dir /a: Displays files with specified attributes (e.g., hidden files).
+22. dir /s: Lists files in the directory and all subdirectories.
+23. cd (Change Directory) - Changes the current directory.
+
+24. cd <folder>: Moves into the specified folder.
+25. cd ..: Moves up one directory level.
+26. cd \: Changes to the root directory of the current drive.
+27. md or mkdir (Make Directory) - Creates a new directory.
+
+28. md <foldername>: Creates a folder with the specified name.
+29. md <folder1\folder2\folder3>: Creates nested folders in one command.
+30. rd or rmdir (Remove Directory) - Removes a directory.
+
+31. rmdir <foldername>: Removes the specified folder (must be empty).
+32. rmdir /s <foldername>: Removes the folder and all contents within it.
+33. rmdir /q <foldername>: Suppresses confirmation prompts.
+34. copy - Copies files from one location to another.
+
+35. copy <source> <destination>: Copies files to the specified destination.
+36. copy /y <source> <destination>: Overwrites files without prompting.
+37. move - Moves files from one location to another or renames them.
+
+38. move <source> <destination>: Moves files to the specified destination.
+39. move <filename> <newname>: Renames a file.
+40. del or erase - Deletes one or more files.
+
+41. del <filename>: Deletes the specified file.
+42. del /q <filename>: Deletes files without prompting for confirmation.
+43. del /f <filename>: Forces deletion of read-only files.
+44. del /s <filename>: Deletes files from all subdirectories.
+45. attrib - Displays or changes file attributes.
+
+46. attrib +r <filename>: Sets the read-only attribute.
+47. attrib -r <filename>: Removes the read-only attribute.
+48. attrib +h <filename>: Sets the hidden attribute.
+49. attrib -h <filename>: Removes the hidden attribute.
+System and Network Management:
+50. ipconfig - Displays network configuration information.
+
+51. ipconfig /all: Displays detailed information about all network adapters.
+52. ipconfig /release: Releases the current IP address.
+53. ipconfig /renew: Renews the IP address.
+54. ipconfig /flushdns: Flushes the DNS resolver cache.
+55. ping - Tests the network connection between your computer and another device.
+
+56. ping <hostname>: Sends ICMP Echo Requests to test connectivity.
+57. ping -t <hostname>: Continuously pings the target until stopped with Ctrl+C.
+58. ping -n <count> <hostname>: Sends a specified number of pings.
+59. netstat - Displays network statistics and active connections.
+
+60. netstat -a: Displays all connections and listening ports.
+61. netstat -n: Displays addresses and port numbers in numerical form.
+62. netstat -r: Displays the routing table.
+63. tasklist - Lists all running processes.
+
+64. tasklist /svc: Shows services hosted in each process.
+65. tasklist /v: Displays verbose task information.
+66. taskkill - Terminates a process by its process ID or name.
+
+67. taskkill /PID <pid>: Kills the process with the specified PID.
+68. taskkill /IM <processname>: Kills the process with the specified name.
+69. taskkill /F /PID <pid>: Forces the termination of the specified process.
+70. sfc (System File Checker) - Scans and repairs corrupted system files.
+
+71. sfc /scannow: Scans all protected system files and replaces corrupted files.
+72. sfc /verifyonly: Scans integrity without repairing.
+73. chkdsk (Check Disk) - Checks a disk and displays a status report.
+
+74. chkdsk <drive>:: Checks the specified drive.
+75. chkdsk /f: Fixes errors on the disk.
+76. chkdsk /r: Locates bad sectors and recovers readable information.
+77. shutdown - Shuts down or restarts the computer.
+
+78. shutdown /s: Shuts down the computer.
+79. shutdown /r: Restarts the computer.
+80. shutdown /l: Logs off the current user.
+81. shutdown /t <seconds>: Sets a delay before shutting down.
+82. shutdown /a: Aborts a shutdown if it's in progress.
+File Searching and System Information:
+83. find - Searches for a text string in files.
+
+84. find "<text>" <filename>: Searches for the text in the specified file.
+85. find /c "<text>" <filename>: Counts the number of lines containing the text.
+86. systeminfo - Displays detailed configuration information about the computer.
+
+87. systeminfo: Displays all system information.
+88. systeminfo | findstr /B /C:"OS Name" /C:"OS Version": Displays only OS name and version.
+89. wmic (Windows Management Instrumentation Command-line) - Displays system information and manages Windows settings.
+
+90. wmic os get caption, version: Displays the Windows OS name and version.
+91. wmic cpu get name, maxclockspeed: Displays CPU name and max clock speed.
