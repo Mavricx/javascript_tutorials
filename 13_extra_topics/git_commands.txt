@@ -27,7 +27,7 @@ Here's a list of commonly used Git commands:
 ### 9. **`git checkout`**
    - Switches between branches or restores files from a specific commit.
 
-### 10. **`git merge`**
+### 10. **`git merge <another branch name>`**
    - Merges changes from one branch into the current branch.
 
 ### 11. **`git pull`**
@@ -39,7 +39,10 @@ Here's a list of commonly used Git commands:
 ### 13. **`git fetch`**
    - Downloads changes from a remote repository without merging them.
 
-### 14. **`git reset`**
+### 14. **`git reset <file name>`**
+   - git reset HEAD~1: unstaged to one last commit
+   - git reset <commit hash>:unstaged to that commit with modified code
+   - git reset --hard <commit hash>:unstaged to that commit without modified code
    - Moves the current branch pointer to a specific commit.
 
 ### 15. **`git stash`**
