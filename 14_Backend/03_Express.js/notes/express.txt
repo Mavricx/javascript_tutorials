@@ -1,0 +1,26 @@
+Express js->a node js web application framework that helps us to make web applications 
+          -> it is used for server side programming
+
+
+                        request -->
+                 |------------>------>----|
+          _______|_______        _________|____     
+          |             |        |             |
+          |  client     |        |   server    |
+          |  (frontend) |        |  (backend)  |
+          |______|______|        |______|______|
+                 |                      |
+                 |-------<--------<-----|
+                     <-- response
+
+
+
+major uses of express js
+=========================
+1.>listens for incoming requests
+2.>parse the requests
+3.>to match response with suitable routes(paths)
+4.> sends suitable response
+
+
+## ports:-->ports are the logical endpoints of a network connection that is used to exchange information between a web server and a web client
