@@ -1,0 +1,16 @@
+h1{
+    color: maroon;
+}
+
+.post{
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.username{
+    font-size: 20px;
+    color: #333;
+}

@@ -1,0 +1,5 @@
+ GET    --->   /posts      --->to get dat for all posts (index main  )
+ POST   --->   /posts      ---> to add a new posts  (crate)
+ GET    --->   /posts/:id  --->to one post (using id) (view)
+ PATCH /PUT  --->   /posts/:id  --->to update specific posts (up)
+ DELETE --->   /posts/:id  ---> to delete specific posts
