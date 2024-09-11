@@ -31,8 +31,9 @@ app.get("/posts/new", (req, res) => {
     res.render("new.ejs")
 })
 
-app.post("/posts/new", (req, res) => {
-    console.log(req.body)
+app.post("/posts", (req, res) => {
+    let {username,content}=req.body
+    posts.push({username,content})
     res.send("post response working")
 })
 
