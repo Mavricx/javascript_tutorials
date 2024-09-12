@@ -3,12 +3,12 @@ const app = express();
 const port = 6060
 const path = require("path")
 const { v4: uuidv4 } = require('uuid');
-// uuidv4(); // ⇨ '416ac246-e7ac-49ff-93b4-f7e94d997e6b'
+// uuidv4(); // ⇨ '416ac246-e7ac-49ff-93b4-f7e94d997e6b' //everytime generates a unique long string 
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const methodOverride = require('method-override')
+const methodOverride = require('method-override')//as html can only send get and post request we have to override it with method-override package and covert it desirable request
 app.use(methodOverride('_method'))
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, 'views'));
