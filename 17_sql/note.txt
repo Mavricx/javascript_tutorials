@@ -114,3 +114,164 @@ SELECT COMMAND
 select * from user;
 select id , name ,email from user;
 select distinct age from user;
+
+
+=================================
+--------------------------------
+claues --> to define some conditions  to get specific results
+
+ex -> select col1 col2 from table_name 
+      where conditions;
+
+ex->  select * from user 
+      where followers>200;
+
+      select  name, age  from user 
+      where followers>200;
+
+      select name ,age from user
+      where age>25;
+
+     
+
+===============
+Operators
+===========
+
+arithmetic--> +,-,*,/,%
+comparision ---> = ,!=, >,>=,<,<=
+logical-->and ,or,not,in,between,all,like,any
+bitwise-->& ,| 
+
+ex -->select name ,age ,followers from user
+   where age >15 and followers>200;             -- using and opereator
+
+    select name ,age ,followers from user
+    where age between 20 and 30;            -- using between operator
+
+    select name , age , followers from user
+    where email in ("david@example.com","eve@example.com");   -- using in operator 
+
+    select name , age , followers from user
+    where age in (22,25);
+
+     select name , age , followers from user
+     where  age not  in (22,25);
+
+===========
+limit claues -->shows  limited number of answers and don't overwhelm with large number of results
+========== 
+  ex -> select name , age ,email from user where age >20 limit 2;
+  
+
+=========
+order by claues -->to sort in ascending (asc) or descending order (desc)
+========
+ex --> select name, age, followers from user order by followers ASC;
+
+=======
+aggregate functions--> aggregate functions perform a calculation on set of values and returs a single value
+=========
+ > count()-->returns the number of results
+ > max() -->returns the maximum number of results
+ > min() -->returns the minimum number of results
+ > sum() -->returns the sum of all the results
+ > avg() -->returns the average of all the results 
+
+ ex -> select max(marks) from student;
+       select count(age) from user where age>14; 
+       select min(age) from user;
+       select sum(followers) from user;
+
+========
+group by claues -->group rows that have the same values into summary rows
+=============== -->it collects data from multiple records and groups the result by one or more column
+                -->generally we use group by with some aggregation function 
+  
+       ex --> select count(age) from user group by age; -->show how many users are there with differnt age group
+          --> select age , max(followers) from user group by age;
+          --> if there is  two user with same age of 14 and one have more follower than other then the the user with   more follower will be shown in that age group and not the lesser one accord. to this query
+          -->we have to write group by age if we had written select age in the starting of the query
+          --> we cant write "select name , age , max(folllowers) from user group by age;"
+
+ ===========
+ Having clause --> similar to where clause i.e applies some condition on rows but it is used when we 
+                  to apply any condition after grouping 
+=============  -->group clause is neccessary  for having,
+               -->having cluse applies condition on group not on individual rows
+
+==============
+General order
+=============
+      select col1
+      from table_name
+      where condition
+      group by col(s)
+      having condition 
+      order by col(s) asc;
+
+  ex --> select age,max(followers) 
+         from user 
+         where age >24
+         group by age 
+         having  max(followers) >200
+         order by age desc;
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+update table 
+-----------
+before using update query we should do this
+   SET SQL_SAFE_UPDATES=0;
+
+update table_name
+set col1=val1, col2=val2, col3=val3
+where condition;
+
+update user 
+set followers=600
+where age=16;
+==============
+delete from table --> delets all the row that fits the certain condition
+==================--> without delete condition it will delete whole table
+  delete from user where age =35;
+
+==========
+alter query --> change the shcema
+============
+> add columns
+  --------
+ alter table table_name
+ add column col2 datatype Constraints;
+ ex -->alter user 
+ add column city varchar (34) defalut "delhi";
+
+>drop column -->delete a column
+ ----------
+  alter table user drop column age;
+
+>rename table
+ -------------
+alter table user rename to instauser;
+
+> change column(rename)
+  ----------------
+alter table table_name 
+change column old_name new_name datatype new Constraints;
+
+ex -> alter table user change column followers subs int defalut 0;
+
+> modify column (modify datatype/constraints)
+ ----------------------------------------------
+  alter table table_name 
+  modify col_name new data_type new_constraints;
+
+  ex --> alter table user 
+         modify subs int default 5; -->from now on when created a new row if subs is not added it will have an default value of 5
+
+
+----------------
+truncate query -->to delelt table's data not the table itself
+----------------
+truncate table table_name;
+
+ex -->truncate table user;
