@@ -1,7 +1,7 @@
 const weather = document.querySelector('.weather');
 const wind = document.querySelector('.wind');
 const apikey = `9db901f443e1a88a2f743bb123aa39da`
-const city = "Bhubaneswar"
+const city = "London";
 const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}`;
 function fetchandshow() {
     let apiUrl = fetch(url);
@@ -12,6 +12,7 @@ function fetchandshow() {
         return response.json();
     })
         .then(data => {
+
             console.log(data);
             weather.classList.add('box');
             wind.classList.add('box');
