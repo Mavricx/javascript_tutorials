@@ -1,0 +1,5 @@
+1> get/            --> show no of user in db
+2> get/users       --> show users(email,id , username)
+3> patch/user/:id  --> username edit
+4> post/user       --> add new user
+5> delete/:id      --> delete user and ask for password before delelting

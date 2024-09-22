@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: #111010;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid white;
+        margin: auto;
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>All users</h2>
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Username</th>
+        <th>Email</th>
+      </tr>
+      <% for (user of users){ %>
+      <tr>
+        <td><%=user.id%></td>
+        <td><%=user.username%></td>
+        <td><%=user.email%></td>
+        <td>
+          <form method="get" action="/user/<%=user.id%>/edit">
+            <button>Edit userame</button>
+          </form>
+        </td>
+      </tr>
+      <% } %>
+    </table>
+  </body>
+</html>

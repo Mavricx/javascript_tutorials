@@ -24,7 +24,7 @@ for (let i = 0; i < 10; i++) {
 }
 // Function to execute a command query
 const commandQuery = (q) => {
-    connection.query(q, [data],(err, result) => {
+    connection.query(q, [data], (err, result) => {
         if (err) {
             console.error('Error executing query:', err);
             return;
@@ -47,8 +47,8 @@ const normalQuery = (q) => {
 
 // commandQuery("use delta_app");
 // commandQuery("create table persons (id int primary key ,username varchar(70) unique,email varchar(70) unique ,password varchar(255) )");
-// commandQuery("insert into persons (id,username,email,password) values ?",);
-normalQuery("select * from persons")
+commandQuery("insert into user (id,username,email,password) values ?",);
+// normalQuery("select * from user")
 // console.log(data);
 // normalQuery("create table persons (id varchar(70) primary key ,username varchar(70) unique,email varchar(70) unique ,password varchar(255) )");
 connection.end();
