@@ -1,0 +1,63 @@
+some basic commands for mongodb
+================================
+1> mongosh--> for entering mongo shell
+2> show dbs --> show all the databases present 
+3> use <db_name> --> use existing or / create new database to use it
+4> db ---> show current db
+5> show collections --> show collections inside a database
+
+
+Basic info related to mongoDb
+==============================
+BSON --> binary json
+:->as usual we use json but mongoDB store them in binary format for more efficiency(only machine readable data)
+
+:->document : mongo stores data in form of documents(BSON docs)
+:->collection : mongodb stores documents in collection 
+
+
+disadvantages for JSON
+--------------------
+:text based
+:space inefficient
+:less number of datatypes in json
+========================================================================
+
+SQL compared to mongoDB
+-------------------------
+instead of tables in mongoDB we use collection and each collection holds individual documents which is equivalent to a single row of the sql
+
+tables--> collections
+rows/tupples ---> documents (jsons)
+
+INSERT in DB
+-----------
+=====> db.collection.insertOne() --> inserts a single document into a collection,
+                          -->  if a collection does not exist mongodb creates the collection when you first   store data for the collection
+
+
+ex- db.student.insertOne( {name:"adam", marks :79})
+
+output :--> 
+{
+  acknowledged: true,
+  insertedId: ObjectId('66f1bcb802b373f326c73bf8')// this represents primary key of that document
+}
+
+
+db.student.find()
+
+ output :-->
+ [
+  {
+    _id: ObjectId('66f1bcb802b373f326c73bf8'),
+    name: 'adam',
+    marks: 79
+  }
+]
+
+---> in the same collection we can do this also
+
+   db.student.insertOne({name :"bob", city:"delhi", marks : 88})
+
+many no of key and value as we like , no specific format for this
