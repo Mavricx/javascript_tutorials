@@ -45,7 +45,7 @@ output :-->
 }
 
 
-db.student.find()
+db.student.find()////this returns everything 
 
  output :-->
  [
@@ -60,4 +60,77 @@ db.student.find()
 
    db.student.insertOne({name :"bob", city:"delhi", marks : 88})
 
-many no of key and value as we like , no specific format for this
+-->many no of key and value as we like , no specific format for this
+-------------------------
+insertMany(array of documents)
+
+db.student.insertMany([{name:"bob,mark:68},{name:"gupta",mark:789}])
+
+for finding specific items
+db.student.find({name:"pikul})-->this returns a cursor //retuns an array of documents //references to the actual document
+or
+db.student.findOne({city:"delhi})--->this returns an actual document 
+
+or for multiple conditions
+
+db.student.find({city:"delhi",marks:88})
+
+Q: find student where mark >75
+ans: db.student.find({marks:{$gt:75}})
+
+Q: Find student who live in delhi or mumbai
+ans : db.student.find ( {city: {$in: ["delhi", "mumbai"]}})
+
+Q: Find student who scored > 75 or live in delhi
+ans : db.student.find({$or: [ {marks: {$gt:75}} , {city:"delhi"}] })
+
+
+Name   Description
+------ ----------------------------
+$eq:  Matches values that are equal to a specified value.
+$gt:  Matches values that are greater than a specified value.
+$gte: Matches values that are greater than or equal to a specified value.
+$in:  Matches any of the values specified in an array.
+$lt:  Matches values that are less than a specified value.
+$lte: Matches values that are less than or equal to a specified value.
+$ne:  Matches all values that are not equal to a specified value.
+$nin: Matches none of the values specified in an array.
+-------------------------------------------------------
+Logical 
+============
+Name  Description
+$and:   Joins query clauses with a logical AND returns all documents that match the conditions of both clauses.
+$not:   Inverts the effect of a query predicate and returns documents that do not match the query predicate.
+$nor:   Joins query clauses with a logical NOR returns all documents that fail to match both clauses.
+$or:    Joins query clauses with a logical OR returns all documents that match the conditions of either clause
+--------------------------------------------------------------------
+Element
+======
+Name       Description
+$exists:  Matches documents that have the specified field.
+$type:    Selects documents if a field is of the specified type.
+---------------------------------------------------------------------------------
+UPDATE IN DB
+------------
+updateOne
+db.student.updateOne() : updates at most a single document that match a specific filter even 
+                         though mutiple documents may match the specific filter.
+        
+db.student.updateOne(<filter>,<update>,<options>)
+ex- db.student.updateOne({name:"adam"},{$set :{marks:99}})
+
+With the update operations, the aggregation pipeline can consist of the following stages:
+
+$addFields
+$set-->
+$project
+$unset
+$replaceRoot
+$replaceWith
+
+db.collection.updateMany()-->update all documents that match a specific filter
+db.student.updateMany({city:99},{$set :{city:"delhi"}})
+db.collection.replaceOne()--> Replaces at most a single document that match a specific 
+                              filter even though multiple documents may match the specific filter
+
+db.student.replaceOne({name:"adam"},{$set :{name:"shradha",marks:99,age:88}})//this does not change only one field in the document it changes the whole document itself with same primary key
