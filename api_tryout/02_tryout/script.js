@@ -1,9 +1,8 @@
 const weather = document.querySelector('.weather');
-const wind = document.querySelector('.wind');
-const apikey = `9db901f443e1a88a2f743bb123aa39da`
-const city = "London";
-const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}`;
+const wind = document.querySelector('.wind')
 function fetchandshow() {
+    const city = document.getElementById('city').value;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=9db901f443e1a88a2f743bb123aa39da`;
     let apiUrl = fetch(url);
     apiUrl.then(response => {
         console.log(response.ok);
@@ -20,7 +19,7 @@ function fetchandshow() {
             wind.innerHTML = `<h2> Weather condition: ${data.weather[0].main}</h2>`
         }).catch(err => {
             weather.innerHTML = `<h1>Error fetching the post : ${err.message}</h1>`;
-        })
+        }) 
 }
 
 let button = document.querySelector("button");

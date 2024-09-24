@@ -7,19 +7,34 @@
   </head>
   <style>
     body {
-      background-color: black;
       color: white;
       text-align: center;
       margin-top: 100px;
     }
     .box {
-      
-      background-color: rgb(255, 8, 0);
+      background-color: rgb(10, 104, 87);
       border: 3px solid white;
       margin: 20px auto;
     }
+    input {
+      height: 30px;
+      width: 180px;
+    }
+    button{
+      background-color: rgb(10, 104, 87);
+      color: white;
+      border: 3px solid white;
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
   </style>
   <body>
+    <div class="blue">
+      <label for="city">
+        <input type="text" id="city" />
+      </label>
+    </div>
     <button>fetch data</button>
     <div class="weather"></div>
     <div class="wind"></div>
