@@ -7,6 +7,7 @@ some basic commands for mongodb
 5> show collections --> show collections inside a database
 
 
+
 Basic info related to mongoDb
 ==============================
 BSON --> binary json
@@ -14,7 +15,7 @@ BSON --> binary json
 
 :->document : mongo stores data in form of documents(BSON docs)
 :->collection : mongodb stores documents in collection 
-
+ 
 
 disadvantages for JSON
 --------------------
@@ -32,6 +33,8 @@ rows/tupples ---> documents (jsons)
 
 INSERT in DB
 -----------
+
+===>db.createCollection("student")  -->create a new collection
 =====> db.collection.insertOne() --> inserts a single document into a collection,
                           -->  if a collection does not exist mongodb creates the collection when you first   store data for the collection
 
@@ -66,10 +69,12 @@ insertMany(array of documents)
 
 db.student.insertMany([{name:"bob,mark:68},{name:"gupta",mark:789}])
 
+----------------------------------------------------------------------------------------
+
 for finding specific items
 db.student.find({name:"pikul})-->this returns a cursor //retuns an array of documents //references to the actual document
 or
-db.student.findOne({city:"delhi})--->this returns an actual document 
+db.student.findOne({city:"delhi"})--->this returns an actual document 
 
 or for multiple conditions
 
@@ -120,7 +125,7 @@ db.student.updateOne(<filter>,<update>,<options>)
 ex- db.student.updateOne({name:"adam"},{$set :{marks:99}})
 
 With the update operations, the aggregation pipeline can consist of the following stages:
-
+    
 $addFields
 $set-->
 $project
@@ -133,4 +138,37 @@ db.student.updateMany({city:99},{$set :{city:"delhi"}})
 db.collection.replaceOne()--> Replaces at most a single document that match a specific 
                               filter even though multiple documents may match the specific filter
 
-db.student.replaceOne({name:"adam"},{$set :{name:"shradha",marks:99,age:88}})//this does not change only one field in the document it changes the whole document itself with same primary key
+
+db.student.replaceOne({name:"adam"},{$set :{name:"shradha",marks:99,age:88}})
+//this does not change only one field in the document it changes the whole document itself with same primary key
+//adds new fields to documents .$set outputs documents that contains all existing fields from the input documents and newly added  fields
+-------------------------------------------------------------------------------------------------------------------
+#Nesting
+
+{
+  _id:Object(-------------------)
+  name:'hari singh',
+  performance:{marks:99,grade:'a}
+}
+//object inside object ==>nesting
+
+to create:-->
+          db.student.insertOne({name:hari singh", performance:{marks:99,grade:'a}})
+
+to find:-->
+          db.student.findOne({"performance.marks":99})
+
+=========================================================
+#Deleteing 
+
+db.collection.deleteOne(<filter>,<option>)
+db.student.deleteOne({name:"gupta"})
+
+db.student.deleteMany({age:{$eq:67}})//for deleting many documents
+
+db.student.drop()-->deletes that collection
+
+db.student.deleteMany({})-->this makes the entire collection empty
+
+db.dropDatabase()--> this deletes the database
+
