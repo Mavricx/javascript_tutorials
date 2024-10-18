@@ -56,12 +56,15 @@ const User = mongoose.model("User", userSchema); //this created a collection of 
 
 // User.find({}).then((res) => { console.log(res) }).catch(err => console.log(err));
 
-const updatedDoc = User.findOneAndUpdate(
-    { name: "bruce" }, // Filter criteria
-    { $set: { age: 78 } }, // Update operation
-    { new: true }
-  ).then((res) => {
-    console.log(res);
-  });
-  
-  console.log(updatedDoc);
+// const updatedDoc = User.findOneAndUpdate(
+//     { name: "bruce" }, // Filter criteria
+//     { $set: { age: 78 } }, // Update operation
+//     { new: true }
+//   ).then((res) => {
+//     console.log(res);
+//   });
+
+//   console.log(updatedDoc);
+// User.deleteOne({ name: "bruce" }).then((res) => {
+//     console.log(res);
+// })

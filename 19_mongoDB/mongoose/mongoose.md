@@ -208,4 +208,171 @@ Model.findByIdAndUpdate(id, { name: "jason bourne" }, options);
 // is sent as
 Model.findByIdAndUpdate(id, { $set: { name: "jason bourne" } }, options);
 ```
+
+## Deleting in Mongoose
+
+### `deleteOne()`
+
+`deleteOne()` deletes the first document that matches the given condition.
+
+Example:
+
+```javascript
+User.deleteOne({ name: "Bruce" }).then((res) => {
+  console.log(res);
+});
+```
+
+### `deleteMany()`
+
+`deleteMany()` deletes all documents that match the given condition.
+
+Example:
+
+```javascript
+User.deleteMany({ name: "jojo" }).then((res) => {
+  console.log(res);
+});
+```
+
+### `findByIdAndDelete()`
+
+The `Model.findByIdAndDelete()` function in Mongoose is used to find a document by its ID and delete it from the database. It works similarly to `findByIdAndRemove()` but is more specific about deletion.
+
+```javascript
+User.findByIdAndDelete("615c1f1a2cfa2c4d3f93e8b5", (err, result) => {
+  if (err) {
+    console.log("Error deleting the document:", err);
+  } else {
+    console.log("Document deleted:", result);
+  }
+});
+```
+
+### `findOneAndDelete()`
+
+The `Model.findOneAndDelete()` function in Mongoose is used to find the first document that matches the given filter (query) and delete it. It's similar to `findByIdAndDelete()`, but instead of finding a document by its `_id`, it finds it based on the query criteria you specify.
+
+```javascript
+User.findOneAndDelete({ name: "John" }, (err, result) => {
+  if (err) {
+    console.log("Error deleting the document:", err);
+  } else {
+    console.log("Document deleted:", result);
+  }
+});
+```
+
+## Schema Validation
+
+Basically more rules and constrains for schema
+this is used in case of more than one constrains for different document components
+
+```javascript
+const bookShcma = mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: String,
+  },
+  price: {
+    type: Number,
+  },
+});
+```
+
+We can use default value such as
+
+```javascript
+const bookSchema = new mongoose.Schema({
+  discount: {
+    type: Number,
+    default: 0,
+  },
+});
+```
+
+We can use enum to set specific values for the schema
+example
+
+```javascript
+const bookSchema = new mongoose.Schema({
+  category: {
+    type: String,
+    enum: ["fiction", "Non-fiction"],
+  },
+});
+```
+
+any other value except these will be ignored or cause error on excecution
+
+To store an array of strings for genre use it like this
+
+```javascript
+const bookSchema = new mongoose.Schema({
+  category: {
+    type: String,
+    enum: ["fiction", "Non-fiction"],
+  },
+  genre: ["comics", "superhero", "fiction"],
+});
+```
+
+We can set immutable schema type (boolean) defines path as immutable.Mongoose prevents you from changing immutable paths unless the parent document has isNew:true
+
+![Schema type Diagram](schema_types.png)
+
+### schema validation on updates
+
+The rules we defined so far only be applied on insertion but not in updation
+To apply such rules on to the updation we have to set runValidators to true just like this
+
+```javascript
+Book.findByIdAndUpdate(
+  "6712c7cb07546b8a250245eb",
+  { price: 55 },
+  { runValidators: true }
+)
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+```
+
+to set custom error message in this process:
+
+```javascript
+const bookShcma = mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: String,
+  },
+  price: {
+    type: Number,
+    min: [1, "Price is too low for amazon selling"],
+  },
+});
+```
+
+to access to erroe for message
+
+```javascript
+Book.findByIdAndUpdate(
+  "6712c7cb07546b8a250245eb",
+  { price: 55 },
+  { runValidators: true }
+)
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => {
+    console.log(err.errors.price.properties.message); //to access that message
+  });
 ```
