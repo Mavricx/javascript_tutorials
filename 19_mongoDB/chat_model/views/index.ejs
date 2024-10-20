@@ -17,9 +17,17 @@
       <p>Form:<i><%=chat.from%></i></p>
       <div class="msg">
         <p><%=chat.msg%></p>
+        <div class="btns"></div>
+        <form action="/chats/<%=chat._id%>/edit" method="GET">
+          <button>Edit</button>
+        </form>
+        <form action="/chats/<%=chat._id%>/?_method=DELETE" method="POST">
+          <button>Delete</button>
+        </form>
       </div>
       <p>Recived By:<i> <%=chat.to%></i></p>
       <hr />
+      <p><%= chat.created_at.toLocaleString() %></p>
     </div>
     <br />
     <br />
