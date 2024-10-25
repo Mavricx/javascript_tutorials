@@ -28,6 +28,39 @@
    });
    ```
 
-7. Creating init.js to initialize put  some sample data for the database.
-8. Creating index.js as /chat route and setting up index.ejs to render all the chats and styling it with style.css
-9. New route chats/new to show a form and taking data/message input from the user.
+   7. Creating `init.js` to initialize and put some sample data for the database.
+   8. Creating `index.js` as `/chat` route and setting up `index.ejs` to render all the chats and styling it with `style.css`.
+   9. New route `chats/new` to show a form and take data/message input from the user.
+   10. A new route `chats/:id/edit` will enable us to edit the chat by taking us to the `edit.ejs` page and take new modified message.
+
+      ```javascript
+      app.get("/chats/:id/edit", async (req, res) => {
+        let { id } = req.params;
+        let chat = await Chat.findById(id);
+        res.render("edit.ejs", { chat });
+      });
+
+      app.put("/chats/:id", async (req, res) => {
+        let { id } = req.params;
+        let { msg: newMsg } = req.body;
+        let updatedChat = await Chat.findByIdAndUpdate(
+         id,
+         { msg: newMsg },
+         { runValidators: true, new: true }
+        );
+        console.log(updatedChat);
+        res.redirect("/chats");
+      });
+      ```
+
+   11. By clicking the delete button on the side of the edit button, the clicked chat will be deleted, thus removing that particular route and data from the database.
+
+      ```javascript
+      app.delete("/chats/:id", async (req, res) => {
+        let { id } = req.params;
+        let deletedChat = await Chat.findByIdAndDelete(id);
+        console.log(deletedChat);
+        res.redirect("/chats");
+      });
+      ```
+
