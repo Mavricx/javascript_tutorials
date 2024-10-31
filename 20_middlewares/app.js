@@ -40,10 +40,22 @@ app.get('/', (req, res) => {
 app.get("/random", (req, res) => {
     res.send("hi this is a random page")
 });
+app.get("/err", (req, res) => {
+    res.send("ohh there is an error")
+});
+app.use((err, req, res, next) => {
+    // console.error(err.stack);
+    // console.status(500).send("something broke")
+    //or
+    console.log("------ERROR------")
+    console.log(err);
+    next(err);// this triggers the default error handler of express
+    //this next will search for next non error handling middleware which can be default error handling middleware.
+})
 
-app.use((req, res, next) => {
-    res.status(404).send("page not found");
-})//if any route not match
+// app.use((req, res, next) => {
+//     res.status(404).send("page not found");
+// })//if any route not match
 
 
 //if we write app.use and all that here then nothing will be printed  in terminal and every thing will work fine 

@@ -89,12 +89,12 @@ Let's create a middleware for an API that checks if the access token was passed 
 
 ```javascript
 app.use("/api", (req, res, next) => {
-    let { token } = req.query;
-    if (token === "giveaccess") {
-        next();
-    } else {
-        res.send("Access Denied");
-    }
+  let { token } = req.query;
+  if (token === "giveaccess") {
+    next();
+  } else {
+    res.send("Access Denied");
+  }
 });
 ```
 
@@ -102,16 +102,16 @@ For using multiple middleware we can do like this:
 
 ```javascript
 const checkToken = (req, res, next) => {
-    let { token } = req.query;
-    if (token === "giveaccess") {
-        next();
-    } else {
-        res.send("Access Denied");
-    }
+  let { token } = req.query;
+  if (token === "giveaccess") {
+    next();
+  } else {
+    res.send("Access Denied");
+  }
 };
 
 app.get("/api", checkToken, (req, res) => {
-    res.send("data");
+  res.send("data");
 });
 ```
 
@@ -119,3 +119,16 @@ app.get("/api", checkToken, (req, res) => {
 
 The most common method is using Express's default error handler. This default error handler middleware function is added at the end of the middleware function stack.
 
+Error handling middlewares
+
+Making custom error handling middleware
+define error handilng middleware in the same way as other middleware functions, except error-handling functions have four arguments instead of three (err, req, res, next)
+
+```javascript
+app.use((err, req, res, next)=>{
+  console.error(err.stack);
+  console.status(500).send("something broke")
+  //we can write next() to presume the normal execution of the code 
+   next(err);//we have to pass err in the next 
+})
+```
