@@ -59,7 +59,7 @@ app.use((err, req, res, next) => {
 
 
 //if we write app.use and all that here then nothing will be printed  in terminal and every thing will work fine 
-//we have to write it before writting get request.
+//we have to write it before writing get request.
 app.listen(8080, () => {
     console.log("app is listening on port 8080")
 });

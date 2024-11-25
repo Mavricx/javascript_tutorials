@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 > If the path is not mentioned, then it works for all the paths.
 > `app.use()` is used for calling different middleware for different paths or path pattern or a regular expression pattern to match paths.
 > Also used for different authentication purposes.
+> This can be used to protect specific sensitive paths and authenticates                                                             before allowing the access to the path
 
 > Callback functions can be:
 
@@ -106,7 +107,8 @@ const checkToken = (req, res, next) => {
   if (token === "giveaccess") {
     next();
   } else {
-    res.send("Access Denied");
+    // res.send("Access Denied");
+     throw new Error("ACCESS DENIED!!")
   }
 };
 
@@ -117,18 +119,18 @@ app.get("/api", checkToken, (req, res) => {
 
 ### Error Handling
 
-The most common method is using Express's default error handler. This default error handler middleware function is added at the end of the middleware function stack.
+> The most common method is using Express's default error handler. This default error handler middleware function is added at the end of the middleware function stack by default. This middleware adds a status codes  and prints outs the stack trace of the error(if occurred any)
+ 
 
-Error handling middlewares
+#### Making Custom Error Handling Middleware
 
-Making custom error handling middleware
-define error handilng middleware in the same way as other middleware functions, except error-handling functions have four arguments instead of three (err, req, res, next)
+Define error handling middleware in the same way as other middleware functions, except error-handling functions have four arguments instead of three (`err`, `req`, `res`, `next`).
 
 ```javascript
-app.use((err, req, res, next)=>{
+app.use((err, req, res, next) => {
   console.error(err.stack);
-  console.status(500).send("something broke")
-  //we can write next() to presume the normal execution of the code 
-   next(err);//we have to pass err in the next 
-})
+  res.status(500).send("Something broke!");
+  // We can write next() to resume the normal execution of the code
+  next(err); // We have to pass err in the next
+});
 ```
