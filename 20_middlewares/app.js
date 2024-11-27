@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const ExpressError = require("./ExpressError")
 
 // app.use((req, res, next) => {
 //     console.log("Hi I am 1st middleware")
@@ -21,15 +22,16 @@ const app = express();
 //     next();
 // });
 
-app.use("/api", (req, res, next) => {
+
+const checkToken = (req, res, next) => {
     let { token } = req.query;
-    if (token === 'giveaccess') {
+    if (token == "giveaccess") {
         next();
     }
-    throw new Error("ACCESS DENIED")
-});
+    throw new ExpressError(401, "Access denied!!");
 
-app.get("/api", (req, res, next) => {
+}
+app.get("/api", checkToken, (req, res, next) => {
     res.send("data")
 })
 
@@ -43,14 +45,24 @@ app.get("/random", (req, res) => {
 app.get("/err", (req, res) => {
     res.send("ohh there is an error")
 });
+app.get("/abcd", (req, res) => {
+    abcd = abcd;
+})
+
+app.get("/admin",(req,res)=>{
+    throw new ExpressError(403,"You are not an admin")
+})
 app.use((err, req, res, next) => {
     // console.error(err.stack);
     // console.status(500).send("something broke")
     //or
     console.log("------ERROR------")
     console.log(err);
-    next(err);// this triggers the default error handler of express
+    // next(err);// this triggers the default error handler of express
     //this next will search for next non error handling middleware which can be default error handling middleware.
+    // res.send(err);
+    let{status, message}=err;
+    res.status(status).send(message);
 })
 
 // app.use((req, res, next) => {

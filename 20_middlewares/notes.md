@@ -131,6 +131,61 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
   // We can write next() to resume the normal execution of the code
-  next(err); // We have to pass err in the next
+  next(err); // We have to pass err in the next or to the default error handler by express
 });
+```
+> Generally `next()` signifies the normal middleware and `next(err)` signifies the error handling middleware.
+
+## Custom Error Classes
+this is to have our own error message for each error code 
+
+```javascript
+//another js file named ExpressError.js
+class ExpressError extends Error{
+    constructor(status,message){
+        super();
+        this.status=status;
+        this.message=message;
+    }
+}
+
+module.exports=ExpressError;
+```
+> In app.js
+
+```javascript
+const ExpressError=require("./ExpressError")
+const checkToken = (req, res, next) => {
+    let { token } = req.query;
+    if (token == "giveaccess") {
+        next();
+    }
+    throw new ExpressError(401, "Access denied!!");
+
+}
+app.get("/api", checkToken, (req, res, next) => {
+    res.send("data")
+    
+})
+app.use((err, req, res, next) => {
+    console.log("------ERROR------")
+    console.log(err);
+    let{status, message}=err;
+    res.status(status).send(message);//this can cause error when the status is undefined
+                                    //only works when we have definite status code
+})
+```
+>  To avoid this we can give default error code and default error message
+```javascript
+
+app.use((err,req,res, next)=>{
+  let {status=500, message=" SOME ERROR OCCURRED"}=err;
+  res.status(status).send(message);
+}) 
+```
+> Here is a simple activity to use custom error handling class
+```javascript
+app.get("/admin",(req,res)=>{
+    throw new ExpressError(403,"You are not an admin")
+})
 ```
