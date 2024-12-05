@@ -24,8 +24,11 @@
         <form action="/chats/<%=chat._id%>/?_method=DELETE" method="POST">
           <button>Delete</button>
         </form>
+        <form action="/chats/<%= chat._id %>" method="GET">
+          <button>Show</button>
+        </form>
       </div>
-      <p>Recived By:<i> <%=chat.to%></i></p>
+      <p>Received By:<i> <%=chat.to%></i></p>
       <hr />
       <p><%= chat.created_at.toLocaleString() %></p>
     </div>

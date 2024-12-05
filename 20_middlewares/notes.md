@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 > If the path is not mentioned, then it works for all the paths.
 > `app.use()` is used for calling different middleware for different paths or path pattern or a regular expression pattern to match paths.
 > Also used for different authentication purposes.
-> This can be used to protect specific sensitive paths and authenticates                                                             before allowing the access to the path
+> This can be used to protect specific sensitive paths and authenticates before allowing the access to the path
 
 > Callback functions can be:
 
@@ -84,8 +84,6 @@ app.use((req, res, next) => {
 
 ### API Token as Query String
 
-### API Token as Query String
-
 Let's create a middleware for an API that checks if the access token was passed in the query string or not.
 
 ```javascript
@@ -108,7 +106,7 @@ const checkToken = (req, res, next) => {
     next();
   } else {
     // res.send("Access Denied");
-     throw new Error("ACCESS DENIED!!")
+    throw new Error("ACCESS DENIED!!");
   }
 };
 
@@ -119,8 +117,7 @@ app.get("/api", checkToken, (req, res) => {
 
 ### Error Handling
 
-> The most common method is using Express's default error handler. This default error handler middleware function is added at the end of the middleware function stack by default. This middleware adds a status codes  and prints outs the stack trace of the error(if occurred any)
- 
+> The most common method is using Express's default error handler. This default error handler middleware function is added at the end of the middleware function stack by default. This middleware adds a status codes and prints outs the stack trace of the error(if occurred any)
 
 #### Making Custom Error Handling Middleware
 
@@ -134,58 +131,191 @@ app.use((err, req, res, next) => {
   next(err); // We have to pass err in the next or to the default error handler by express
 });
 ```
+
 > Generally `next()` signifies the normal middleware and `next(err)` signifies the error handling middleware.
 
 ## Custom Error Classes
-this is to have our own error message for each error code 
+
+This is to have our own error message for each error code
 
 ```javascript
 //another js file named ExpressError.js
-class ExpressError extends Error{
-    constructor(status,message){
-        super();
-        this.status=status;
-        this.message=message;
-    }
+class ExpressError extends Error {
+  constructor(status, message) {
+    super();
+    this.status = status;
+    this.message = message;
+  }
 }
 
-module.exports=ExpressError;
+module.exports = ExpressError;
 ```
+
 > In app.js
 
 ```javascript
-const ExpressError=require("./ExpressError")
+const ExpressError = require("./ExpressError");
 const checkToken = (req, res, next) => {
-    let { token } = req.query;
-    if (token == "giveaccess") {
-        next();
-    }
-    throw new ExpressError(401, "Access denied!!");
-
-}
+  let { token } = req.query;
+  if (token == "giveaccess") {
+    next();
+  }
+  throw new ExpressError(401, "Access denied!!");
+};
 app.get("/api", checkToken, (req, res, next) => {
-    res.send("data")
-    
-})
+  res.send("data");
+});
 app.use((err, req, res, next) => {
-    console.log("------ERROR------")
-    console.log(err);
-    let{status, message}=err;
-    res.status(status).send(message);//this can cause error when the status is undefined
-                                    //only works when we have definite status code
-})
+  console.log("------ERROR------");
+  console.log(err);
+  let { status, message } = err;
+  res.status(status).send(message); //this can cause error when the status is undefined
+  //only works when we have definite status code
+});
 ```
->  To avoid this we can give default error code and default error message
-```javascript
 
-app.use((err,req,res, next)=>{
-  let {status=500, message=" SOME ERROR OCCURRED"}=err;
-  res.status(status).send(message);
-}) 
-```
-> Here is a simple activity to use custom error handling class
+> To avoid this we can give default error code and default error message
+
 ```javascript
-app.get("/admin",(req,res)=>{
-    throw new ExpressError(403,"You are not an admin")
-})
+app.use((err, req, res, next) => {
+  let { status = 500, message = " SOME ERROR OCCURRED" } = err;
+  res.status(status).send(message);
+});
 ```
+
+> Here is a simple activity to use custom error handling class
+
+```javascript
+app.get("/admin", (req, res) => {
+  throw new ExpressError(403, "You are not an admin");
+});
+```
+
+### Handling Async Errors
+
+To handle asynchronous errors in Express, you can use the `next` function to pass the error to the error-handling middleware. Here is an example:
+(refer 19_mongDB->chat_model-)
+
+```javascript
+app.get("/chats/:id", async (req, res, next) => {
+  let { id } = req.params;
+  try {
+    let chat = await Chat.findById(id);
+    if (!chat) {
+      return next(new ExpressError(404, "Chat not found"));
+    }
+    res.render("edit.ejs", { chat });
+  } catch (err) {
+    next(err);
+  }
+});
+```
+
+In this example, if the chat is not found, an `ExpressError` is created and passed to the next middleware using `next()`. This ensures that the error is handled by the error-handling middleware.
+
+### Example of Different Types of Errors to Handle
+
+1. ID does not exist
+2. Validation error
+
+Here is an example of using `try` and `catch` to handle these types of errors:
+
+```javascript
+app.post("/chats", (req, res, next) => {
+  try {
+    let { from, to, msg } = req.body;
+    let newChat = new Chat({
+      from: from,
+      to: to,
+      msg: msg,
+      created_at: new Date(),
+    });
+    newChat
+      .save()
+      .then(() => {
+        console.log("Chat is saved in the database");
+        res.redirect("/chats");
+      })
+      .catch((err) => {
+        console.log(err);
+        next(err); // Pass the error to the error-handling middleware
+      });
+  } catch (err) {
+    next(err); // Pass the error to the error-handling middleware
+  }
+});
+```
+
+In this example, if there is an error while saving the chat, it will be caught and passed to the error-handling middleware using `next(err)`.
+
+## wrapAsync
+
+Different types of error handling:
+
+1. Normal error handling
+2. Async error handling
+3. Try and catch error handling (bulky style of coding)
+4. wrapAsync
+
+wrapAsync is a function that takes a function as an argument and returns a function.
+
+Here is how it's done:
+
+```javascript
+//pseudocode
+function wrapAsync(fnc) {
+  return function (req, res, next) {
+    func().catch(err); //execute the passed function with catch statement
+  };
+}
+```
+
+Here is the real code:
+
+```javascript
+function asyncWrap(fn) {
+  return function (req, res, next) {
+    fn(req, res, next).catch((err) => next(err));
+  };
+}
+app.get(
+  "/chats/:id",
+  asyncWrap(async (req, res, next) => {
+    let { id } = req.params;
+    let chat = await Chat.findById(id);
+    if (!chat) {
+      // throw ExpressError(404, "chat  not found") this error will not be handled by the error handling middleware
+      //to fix this
+      next(new ExpressError(404, "chat not found"));
+    }
+    res.render("edit.ejs", { chat });
+  })
+);
+## Mongoose Errors
+
+Mongoose generates different types of errors like:
+
+1. Validation error: Occurs when the data does not meet the defined schema requirements.
+2. Cast error: Happens when a value cannot be cast to the required type.
+
+To handle these errors uniquely and print out the error name, you can use the following approach:
+
+```javascript
+const handleValidationErr = (err) => {
+  // Particularly for the ValidationError
+  console.log("This was a validation error, please follow the rules.");
+  console.log(err.message);
+  return err;
+};
+
+// Error name printing middleware and other tasks for particular errors
+app.use((err, req, res, next) => {
+  console.log(err.name);
+  if (err.name === "ValidationError") {
+    err = handleValidationErr(err);
+  }
+  next(err);
+});
+```
+
+In this example, if a validation error occurs, the `handleValidationErr` function is called to log the error details and handle it appropriately.
