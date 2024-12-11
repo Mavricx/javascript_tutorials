@@ -48,4 +48,13 @@ Here how to use it(for passport-local)
 user:username, password, email
 > You're free to define your User how you like. Passport-Local Mongoose will add a username, hash and salt field to store the username, the hashed password and the salt value.Additionally, Passport-Local Mongoose adds some methods to your Schema. See the API
 
- 
+## configuring strategies
+
+### passport.initialize()
+> A middleware that initialize passport
+
+### passport.session()
+> a web application needs the ability to identify users as they browse from page to page. This series of requests and responses , each associated with the same user, is known as a session.
+
+### passport.use(new LocalStrategy(User.authenticate()))
+  This code sets up passport to use the local strategy for authenticating users with a username and password,leveraging the authenticate method from the User model.
