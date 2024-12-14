@@ -109,3 +109,48 @@ const findCustomer = async () => {
 1.  `<100s`: can be embedded
 2.  `>100s` : array of ObjectId
 3.  `>1000s`: store parent inside of the child for high cardinality cases like this.
+## Handling Deletion Using Mongoose Middlewares
+
+We can use two middlewares:
+
+1. **pre**: Runs before the query is executed.
+2. **post**: Runs after the query is executed.
+
+> Query middleware is supported for the following Query functions. Query middleware executes when you call `exec()` or `then()` on a Query object, or await on a Query object. In query middleware functions, `this` refers to the `query`.
+
+Here we go with an example:
+
+```javascript
+const addCust = async () => {
+  let newCust = new Customer({
+    name: "karan arjun",
+  });
+  let newOrder = new Order({
+    item: "bhel",
+    price: 20,
+  });
+  newCust.orders.push(newOrder);
+
+  await newOrder.save();
+  await newCust.save();
+
+  console.log("added new customer and orders");
+};
+
+// addCust();
+```
+
+Let's create a function to delete that:
+
+```javascript
+const delCust = async () => {
+  let res = await Customer.findOneAndDelete({ name: "karan arjun" });
+  console.log(res);
+};
+
+delCust();
+```
+
+From the above example, we can delete the customer from the database, but the issue is that the documents of the related orders still remain there.
+
+Here we are going to learn how to delete that automatically using a mongoose middleware.

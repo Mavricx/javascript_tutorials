@@ -31,7 +31,7 @@ const findCustomer = async () => {
     console.log(result[0]);
 };
 
-findCustomer();
+
 // const addCustomer = async () => {
 //     let cust1 = new Customer({
 //         name: "Bhupendra Yogi",
@@ -66,3 +66,30 @@ findCustomer();
 //     console.log(res);
 // }
 // addOrders();
+
+//handling deletion part
+
+const addCust = async () => {
+    let newCust = new Customer({
+        name: "karan arjun",
+    })
+    let newOrder = new Order({
+        item: 'bhel',
+        price: 20,
+    })
+    newCust.orders.push(newOrder);
+
+    await newOrder.save();
+    await newCust.save();
+
+    console.log("added new customer and orders")
+}
+
+// addCust(); 
+
+const delCust = async () => {
+    let res = await Customer.findOneAndDelete({ name: "karan arjun" });
+    console.log(res);
+}
+
+delCust();
