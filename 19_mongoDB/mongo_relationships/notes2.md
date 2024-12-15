@@ -8,14 +8,14 @@ MongoDB relationships refer to how documents are related to one another within a
 
 These relationships can be implemented using embedded documents or references.
 
-> We are going to learn the one-to-many relationship in great detail.
-> This is divided into three categories:
+- We are going to learn the one-to-many relationship in great detail.
+- This is divided into three categories:
 
 1. **One to Few**
 
    > (e.g., one Flipkart user stores a few addresses, not too many) [refer user.js in the model]
 
-   > We are not going to use the addresses stored by any user individually, so we don't need to create another schema for addresses and will store them inside the user data (document) like this:
+   - We are not going to use the addresses stored by any user individually, so we don't need to create another schema for addresses and will store them inside the user data (document) like this:
 
    ```javascript
    {
@@ -29,7 +29,7 @@ These relationships can be implemented using embedded documents or references.
    }
    ```
 
-   > After inserting data into the database, we can notice that MongoDB has automatically inserted unique IDs to each address, assuming it is a document itself. To avoid this, we should write:
+   - After inserting data into the database, we can notice that MongoDB has automatically inserted unique IDs to each address, assuming it is a document itself. To avoid this, we should write:
 
    ```javascript
    _id: false;
@@ -38,7 +38,8 @@ These relationships can be implemented using embedded documents or references.
 2. **One to Thousands**
 
    > [refer customer.js in the models]
-   > In this case, when we need to store more than a few documents inside the main document, we don't store them directly. We store a reference to the child documents inside the parent.
+
+   - In this case, when we need to store more than a few documents inside the main document, we don't store them directly. We store a reference to the child documents inside the parent.
 
    ```javascript
    {
@@ -54,9 +55,12 @@ These relationships can be implemented using embedded documents or references.
 
 ### Using Populate
 
-> Population is the process of automatically replacing the specified paths in the document with document(s) from other collection(s). We may populate a single document, multiple documents, a plain object, multiple plain objects, or all objects returned from a query. In simple terms, if we replace the ObjectId with real documents in the above example, we call it population.
-> This only changes how to show data not the data itself.
-> We can do that by writing:
+- Population is the process of automatically replacing the specified paths in the document with document(s) from other collection(s). We may populate a single document, multiple documents, a plain object, multiple plain objects, or all objects returned from a query. In simple terms, if we replace the
+
+- ObjectId with real documents in the above example, we call it population.
+
+- This only changes how to show data not the data itself.
+- We can do that by writing:
 
 ```javascript
 const findCustomer = async () => {
@@ -72,7 +76,8 @@ const findCustomer = async () => {
 3. **One to Squillions**
 
    > [refer customer.js in models]
-   > This is the largest implementation of the one-to-many relationship, where we store a large number of documents related to a single document/user. For example, multiple users have multiple posts, and instead of storing a large number of posts inside a single user, the better approach is to store the user information inside each post. The child document should contain the parent information. This implementation is similar to the primary key and foreign key concept, but here the parent is the foreign key. This makes individual documents smaller and easier to access.
+
+   - This is the largest implementation of the one-to-many relationship, where we store a large number of documents related to a single document/user. For example, multiple users have multiple posts, and instead of storing a large number of posts inside a single user, the better approach is to store the user information inside each post. The child document should contain the parent information. This implementation is similar to the primary key and foreign key concept, but here the parent is the foreign key. This makes individual documents smaller and easier to access.
 
    ```javascript
    {
@@ -118,9 +123,9 @@ We can these two mongoose middlewares:
    > Pre middleware functions are executed one after another, when each middleware calls `next`
 2. **post**: Runs after the query is executed. (do some task after the delete query)
 
-> Query middleware is supported for the following Query functions. Query middleware executes when you call `exec()` or `then()` on a Query object, or await on a Query object. In query middleware functions, `this` refers to the `query`.
+- Query middleware is supported for the following Query functions. Query middleware executes when you call `exec()` or `then()` on a Query object, or await on a Query object. In query middleware functions, `this` refers to the `query`.
 
-Here we go with an example:
+- Here we go with an example:
 
 ```javascript
 const addCust = async () => {
@@ -154,11 +159,23 @@ delCust();
 ```
 
 From the above example, we can delete the customer from the database, but the issue is that the documents of the related orders still remain there.
+Here we are going to learn how to delete that automatically using a mongoose middleware (either pre or post).
 
-Here we are going to learn how to delete that automatically using a mongoose middleware(either pre or post ).
+> Note: We have used the query named `findByIdAndDelete()` which is not on the list of queries that we can pass to the middlewares (pre or post), but it falls under the query type `findOneAndDelete()` and we can pass that to the intended middlewares.
 
->note: we have used the query named `findByIdAndDelete()` which which is not on the list of queries which we can pass on to the middlewares(pre or post) 
->but it falls under the query type `findOneAndDelete()` and we can pass on that to the pre intended middlewares.
+Here is an example:
 
-here is an example
 ```javascript
+customerSchema.pre("findOneAndDelete", async (data) => {
+  console.log("pre middleware triggered");
+  console.log(data);
+});
+
+customerSchema.post("findOneAndDelete", async (customers) => {
+  console.log("post middleware triggered");
+  if (customers.orders.length) {
+    let res = await Order.deleteMany({ _id: { $in: customers.orders } });
+    console.log(res);
+  }
+});
+```

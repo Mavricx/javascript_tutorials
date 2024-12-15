@@ -24,13 +24,14 @@ const customerSchema = new Schema({
     ]
 })
 
-// customerSchema.pre("findOneAndDelete", async () => {
+// customerSchema.pre("findOneAndDelete", async (data) => {
 //     console.log("pre middleware triggered")
+//     console.log(data);
 // })
 customerSchema.post("findOneAndDelete", async (customers) => {
     console.log("post middleware triggered")
     if (customers.orders.length) {
-        let res =await Order.deleteMany({ _id: { $in: customers.orders } })
+        let res = await Order.deleteMany({ _id: { $in: customers.orders } })
         console.log(res)
     }
 })
