@@ -23,6 +23,18 @@ const customerSchema = new Schema({
         }
     ]
 })
+
+// customerSchema.pre("findOneAndDelete", async () => {
+//     console.log("pre middleware triggered")
+// })
+customerSchema.post("findOneAndDelete", async (customers) => {
+    console.log("post middleware triggered")
+    if (customers.orders.length) {
+        let res =await Order.deleteMany({ _id: { $in: customers.orders } })
+        console.log(res)
+    }
+})
+
 const Order = mongoose.model("Order", orderSchema);
 const Customer = mongoose.model("Customer", customerSchema);
 
@@ -32,39 +44,39 @@ const findCustomer = async () => {
 };
 
 
-// const addCustomer = async () => {
-//     let cust1 = new Customer({
-//         name: "Bhupendra Yogi",
-//     })
-//     let order1 = await Order.findOne({ item: "samosa" });
-//     let order2 = await Order.findOne({ item: "vada pav" });
+const addCustomer = async () => {
+    let cust1 = new Customer({
+        name: "Bhupendra Yogi",
+    })
+    let order1 = await Order.findOne({ item: "samosa" });
+    let order2 = await Order.findOne({ item: "vada pav" });
 
-//     cust1.orders.push(order1);
-//     cust1.orders.push(order2);
+    cust1.orders.push(order1);
+    cust1.orders.push(order2);
 
-//     let res =await cust1.save();
-//     console.log(res);
-// }
+    let res = await cust1.save();
+    console.log(res);
+}
 
 // addCustomer();
 
-// const addOrders = async () => {
-//     let res = await Order.insertMany([
-//         {
-//             item: "samosa",
-//             price: 10,
-//         },
-//         {
-//             item: "vada pav",
-//             price: 15,
-//         },
-//         {
-//             item: "pav bhaji",
-//             price: 20,
-//         }]
-//     )
-//     console.log(res);
-// }
+const addOrders = async () => {
+    let res = await Order.insertMany([
+        {
+            item: "samosa",
+            price: 10,
+        },
+        {
+            item: "vada pav",
+            price: 15,
+        },
+        {
+            item: "pav bhaji",
+            price: 20,
+        }]
+    )
+    console.log(res);
+}
 // addOrders();
 
 //handling deletion part
@@ -77,19 +89,24 @@ const addCust = async () => {
         item: 'bhel',
         price: 20,
     })
+    let newOrder2 = new Order({
+        item: 'poha',
+        price: 15,
+    })
     newCust.orders.push(newOrder);
-
+    newCust.orders.push(newOrder2);
     await newOrder.save();
     await newCust.save();
 
     console.log("added new customer and orders")
 }
 
-// addCust(); 
+// addCust();
 
 const delCust = async () => {
-    let res = await Customer.findOneAndDelete({ name: "karan arjun" });
+    let res = await Customer.findByIdAndDelete("675ebab181716a26cb0700bd");
     console.log(res);
 }
 
 delCust();
+
