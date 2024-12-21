@@ -179,3 +179,24 @@ customerSchema.post("findOneAndDelete", async (customers) => {
   }
 });
 ```
+
+## $pull operation 
+
+* From the previous example of pre and post mongoose middleware we learned how to delete all the associated object_id with the parent as we delete parent document.
+> e.g deleting all the orders as we delete the customer itself from the database.
+
+* Now with pull operator we going to learn how to delete a child as well as deleting that from parent form the array of children with leaving other children intact.
+> Deleting order's document and deleting it from order list of that customer.
+
+Here is the example from the 
+
+```javascript
+pp.delete("/listing/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+    let listing = await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } })//code to pull or delete that review from the array of review
+    let review = await Review.findByIdAndDelete(reviewId);
+    console.log("review deleted", review)
+    console.log("listing updated", listing);
+    res.redirect(`/listing/${id}`);
+}))
+```
