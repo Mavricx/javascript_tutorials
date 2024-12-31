@@ -128,3 +128,25 @@ app.get("/hello", (req, res) => {
 });
 ```
 
+```javascript
+const sessionOptions = { 
+    // Secret key used to sign the session ID cookie (should be changed to a secure value in production)
+    secret: "mysupersecret", 
+    // should be changed later. Forces the session to be saved back to the session store, even if it was never modified during the request
+    resave: false, 
+    // Forces a session that is "uninitialized" to be saved to the store
+    saveUninitialized: true, 
+    // Configuration options for the session ID cookie
+    cookie: { 
+        // Sets the expiration date of the cookie (7 days from now)
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000, 
+        // Sets the maximum age of the cookie in milliseconds (7 days)
+        maxAge: 7 * 24 * 60 * 60 * 1000, 
+        // Ensures the cookie is only sent over HTTP(S), not client JavaScript
+        httpOnly: true,
+    }
+}
+
+// Use the session middleware with the specified options
+app.use(session(sessionOptions));
+```

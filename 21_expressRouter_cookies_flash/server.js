@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 
 app.get("/register", (req, res) => {
     let { name = "anonymous" } = req.query;
-    req.session.name = name;
+    req.session.name = name; 
     if (name === "anonymous") {
         req.flash("error", "please provide a name")
     }
