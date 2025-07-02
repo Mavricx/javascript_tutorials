@@ -291,3 +291,292 @@ TRUNCATE TABLE user;
 ```
 
 ```
+
+## JOINS in SQL
+
+A **JOIN** in SQL is used to combine rows from two or more tables, based on a related column between them. This allows you to retrieve data that is spread across multiple tables in a relational database.
+
+### Types of Joins
+
+1. **INNER JOIN**  
+  Returns only the records that have matching values in both tables.
+
+2. **LEFT JOIN (or LEFT OUTER JOIN)**  
+  Returns all records from the left table, and the matched records from the right table. If there is no match, the result is NULL from the right table.
+
+3. **RIGHT JOIN (or RIGHT OUTER JOIN)**  
+  Returns all records from the right table, and the matched records from the left table. If there is no match, the result is NULL from the left table.
+
+4. **FULL JOIN (or FULL OUTER JOIN)**  
+  Returns all records when there is a match in either left or right table. If there is no match, the result is NULL from the table without a match.
+
+---
+
+### INNER JOIN
+
+The **INNER JOIN** keyword selects records that have matching values in both tables.
+
+**Syntax:**
+
+```sql
+SELECT column_name(s)
+FROM TableA
+INNER JOIN TableB
+ON TableA.column_name = TableB.column_name;
+```
+
+**Example:**
+
+Suppose you have two tables:
+
+- `customer`  
+  | customer_id | name   |
+  |-------------|--------|
+  | 1           | Alice  |
+  | 2           | Bob    |
+
+- `payment`  
+  | payment_id | customer_id | amount |
+  |------------|-------------|--------|
+  | 101        | 1           | 500    |
+  | 102        | 2           | 300    |
+
+To get all customers who have made a payment:
+
+```sql
+SELECT *
+FROM customer AS c
+INNER JOIN payment AS p
+ON c.customer_id = p.customer_id;
+```
+
+**Result:**
+
+| customer_id | name  | payment_id | customer_id | amount |
+|-------------|-------|------------|-------------|--------|
+| 1           | Alice | 101        | 1           | 500    |
+| 2           | Bob   | 102        | 2           | 300    |
+
+---
+
+### Visual Representation
+
+```
+TableA         TableB
++----+-----+   +----+-------+
+| id | ... |   | id | ...   |
++----+-----+   +----+-------+
+| 1  | ... |   | 1  | ...   |
+| 2  | ... |   | 2  | ...   |
+| 3  | ... |   | 4  | ...   |
++----+-----+   +----+-------+
+
+INNER JOIN result: Only rows with id 1 and 2 (present in both tables)
+```
+
+---
+
+> **Tip:** Use table aliases (like `c` and `p` above) to make your queries shorter and more readable, especially when joining multiple tables.
+
+---
+
+### LEFT JOIN
+
+The **LEFT JOIN** (or **LEFT OUTER JOIN**) returns all records from the left table, and the matched records from the right table. If there is no match, the result is NULL from the right table.
+
+**Syntax:**
+
+```sql
+SELECT column_name(s)
+FROM TableA
+LEFT JOIN TableB
+ON TableA.column_name = TableB.column_name;
+```
+
+**Example:**
+
+Suppose you have:
+
+- `customer`  
+  | customer_id | name   |
+  |-------------|--------|
+  | 1           | Alice  |
+  | 2           | Bob    |
+  | 3           | Carol  |
+
+- `payment`  
+  | payment_id | customer_id | amount |
+  |------------|-------------|--------|
+  | 101        | 1           | 500    |
+  | 102        | 2           | 300    |
+
+To get all customers and their payments (if any):
+
+```sql
+SELECT *
+FROM customer AS c
+LEFT JOIN payment AS p
+ON c.customer_id = p.customer_id;
+```
+
+**Result:**
+
+| customer_id | name  | payment_id | customer_id | amount |
+|-------------|-------|------------|-------------|--------|
+| 1           | Alice | 101        | 1           | 500    |
+| 2           | Bob   | 102        | 2           | 300    |
+| 3           | Carol | NULL       | NULL        | NULL   |
+
+---
+
+### Visual Representation
+
+```
+TableA         TableB
++----+-----+   +----+-------+
+| id | ... |   | id | ...   |
++----+-----+   +----+-------+
+| 1  | ... |   | 1  | ...   |
+| 2  | ... |   | 2  | ...   |
+| 3  | ... |   | 4  | ...   |
++----+-----+   +----+-------+
+
+LEFT JOIN result: rows with id 1, 2 (matched), and 3 (no match, NULLs from TableB)
+```
+
+---
+
+### RIGHT JOIN
+
+The **RIGHT JOIN** (or **RIGHT OUTER JOIN**) returns all records from the right table, and the matched records from the left table. If there is no match, the result is NULL from the left table.
+
+**Syntax:**
+
+```sql
+SELECT column_name(s)
+FROM TableA
+RIGHT JOIN TableB
+ON TableA.column_name = TableB.column_name;
+```
+
+**Example:**
+
+Suppose you have:
+
+- `customer`  
+  | customer_id | name   |
+  |-------------|--------|
+  | 1           | Alice  |
+  | 2           | Bob    |
+
+- `payment`  
+  | payment_id | customer_id | amount |
+  |------------|-------------|--------|
+  | 101        | 1           | 500    |
+  | 102        | 2           | 300    |
+  | 103        | 4           | 200    |
+
+To get all payments and their customers (if any):
+
+```sql
+SELECT *
+FROM customer AS c
+RIGHT JOIN payment AS p
+ON c.customer_id = p.customer_id;
+```
+
+**Result:**
+
+| customer_id | name  | payment_id | customer_id | amount |
+|-------------|-------|------------|-------------|--------|
+| 1           | Alice | 101        | 1           | 500    |
+| 2           | Bob   | 102        | 2           | 300    |
+| NULL        | NULL  | 103        | 4           | 200    |
+
+---
+
+### Visual Representation
+
+```
+TableA         TableB
++----+-----+   +----+-------+
+| id | ... |   | id | ...   |
++----+-----+   +----+-------+
+| 1  | ... |   | 1  | ...   |
+| 2  | ... |   | 2  | ...   |
+|    |     |   | 4  | ...   |
++----+-----+   +----+-------+
+
+RIGHT JOIN result: rows with id 1, 2 (matched), and 4 (no match, NULLs from TableA)
+```
+
+---
+
+### FULL JOIN
+
+The **FULL JOIN** (or **FULL OUTER JOIN**) returns all records when there is a match in either left or right table. If there is no match, the result is NULL from the table without a match.
+
+**Syntax:**
+
+```sql
+SELECT column_name(s)
+FROM TableA
+FULL OUTER JOIN TableB
+ON TableA.column_name = TableB.column_name;
+```
+
+**Example:**
+
+Suppose you have:
+
+- `customer`  
+  | customer_id | name   |
+  |-------------|--------|
+  | 1           | Alice  |
+  | 2           | Bob    |
+  | 3           | Carol  |
+
+- `payment`  
+  | payment_id | customer_id | amount |
+  |------------|-------------|--------|
+  | 101        | 1           | 500    |
+  | 102        | 2           | 300    |
+  | 103        | 4           | 200    |
+
+To get all customers and all payments, matching where possible:
+
+```sql
+SELECT *
+FROM customer AS c
+FULL OUTER JOIN payment AS p
+ON c.customer_id = p.customer_id;
+```
+
+**Result:**
+
+| customer_id | name  | payment_id | customer_id | amount |
+|-------------|-------|------------|-------------|--------|
+| 1           | Alice | 101        | 1           | 500    |
+| 2           | Bob   | 102        | 2           | 300    |
+| 3           | Carol | NULL       | NULL        | NULL   |
+| NULL        | NULL  | 103        | 4           | 200    |
+
+---
+
+### Visual Representation
+
+```
+TableA         TableB
++----+-----+   +----+-------+
+| id | ... |   | id | ...   |
++----+-----+   +----+-------+
+| 1  | ... |   | 1  | ...   |
+| 2  | ... |   | 2  | ...   |
+| 3  | ... |   | 4  | ...   |
++----+-----+   +----+-------+
+
+FULL JOIN result: rows with id 1, 2 (matched), 3 (only in TableA), and 4 (only in TableB)
+```
+
+---
+
